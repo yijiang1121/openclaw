@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>OpenClaw Deck</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        --bg: #0c0f14;
+        --bg-alt: #121824;
+        --card: #182234;
+        --text: #f5f7ff;
+        --muted: #b7c0d9;
+        --accent: #61f2ff;
+        --accent-2: #b1ff9b;
+        --accent-3: #ffd36e;
+        --shadow: rgba(0, 0, 0, 0.35);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Inter", "SF Pro Text", system-ui, -apple-system, sans-serif;
+        background: radial-gradient(circle at top, #1a2436, var(--bg));
+        color: var(--text);
+        min-height: 100vh;
+        overflow: hidden;
+      }
+
+      main {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+      }
+
+      .deck {
+        flex: 1;
+        display: grid;
+        place-items: center;
+        padding: 5vw;
+      }
+
+      .slide {
+        width: min(1100px, 90vw);
+        min-height: 70vh;
+        background: linear-gradient(145deg, rgba(24, 34, 52, 0.95), rgba(10, 14, 22, 0.9));
+        border-radius: 28px;
+        padding: 3.5rem;
+        box-shadow: 0 30px 60px var(--shadow);
+        border: 1px solid rgba(97, 242, 255, 0.2);
+        display: none;
+        position: relative;
+      }
+
+      .slide.active {
+        display: block;
+        animation: slideIn 0.4s ease-out;
+      }
+
+      .slide h1 {
+        font-size: clamp(2.6rem, 4vw, 4rem);
+        margin: 0 0 1rem;
+        color: var(--accent);
+      }
+
+      .slide h2 {
+        font-size: clamp(1.8rem, 2.5vw, 2.6rem);
+        margin: 0 0 1rem;
+        color: var(--accent-2);
+      }
+
+      .slide h3 {
+        font-size: clamp(1.2rem, 2vw, 1.8rem);
+        margin: 1.4rem 0 0.5rem;
+        color: var(--accent-3);
+      }
+
+      .slide p {
+        font-size: clamp(1.05rem, 1.4vw, 1.4rem);
+        line-height: 1.6;
+        color: var(--text);
+        margin: 0 0 1rem;
+      }
+
+      .slide ul {
+        margin: 0;
+        padding-left: 1.4rem;
+        display: grid;
+        gap: 0.6rem;
+        font-size: clamp(1.02rem, 1.35vw, 1.3rem);
+        color: var(--muted);
+      }
+
+      .slide .eyebrow {
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        font-weight: 600;
+        font-size: 0.85rem;
+        color: var(--muted);
+        margin-bottom: 0.8rem;
+      }
+
+      .slide .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 1.2rem;
+        margin-top: 1.6rem;
+      }
+
+      .card {
+        background: rgba(13, 18, 28, 0.7);
+        border-radius: 18px;
+        padding: 1.2rem 1.3rem;
+        border: 1px solid rgba(97, 242, 255, 0.12);
+        min-height: 140px;
+      }
+
+      .card strong {
+        display: block;
+        font-size: 1.05rem;
+        margin-bottom: 0.5rem;
+        color: var(--text);
+      }
+
+      .pill-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+        margin-top: 1rem;
+      }
+
+      .pill {
+        padding: 0.35rem 0.8rem;
+        border-radius: 999px;
+        background: rgba(97, 242, 255, 0.18);
+        color: var(--text);
+        font-size: 0.9rem;
+        border: 1px solid rgba(97, 242, 255, 0.2);
+      }
+
+      .footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.2rem 2.5rem;
+        font-size: 0.95rem;
+        color: var(--muted);
+      }
+
+      .progress {
+        display: flex;
+        gap: 0.4rem;
+      }
+
+      .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.2);
+      }
+
+      .dot.active {
+        background: var(--accent);
+      }
+
+      .nav-hint {
+        font-size: 0.85rem;
+        color: var(--muted);
+      }
+
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateY(12px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (max-width: 720px) {
+        .slide {
+          padding: 2rem;
+          min-height: 76vh;
+        }
+
+        .footer {
+          flex-direction: column;
+          gap: 0.6rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="deck" aria-live="polite">
+        <article class="slide active" data-title="Intro">
+          <div class="eyebrow">OpenClaw</div>
+          <h1>Personal AI assistant for your devices</h1>
+          <p>
+            OpenClaw is a local first assistant that lives on your hardware, responds on the
+            channels you already use, and keeps control in your hands.
+          </p>
+          <div class="pill-row">
+            <span class="pill">Gateway control plane</span>
+            <span class="pill">Multi channel inbox</span>
+            <span class="pill">Voice and Canvas</span>
+            <span class="pill">CLI first workflows</span>
+          </div>
+        </article>
+
+        <article class="slide" data-title="Why">
+          <div class="eyebrow">Problem</div>
+          <h2>Personal AI should feel local and always on</h2>
+          <ul>
+            <li>Messaging assistants are split across apps and devices.</li>
+            <li>Self hosted gateways are hard to keep running and secure.</li>
+            <li>Teams need a safe single user mode with allowlists and pairing.</li>
+          </ul>
+          <h3>OpenClaw focus</h3>
+          <p>
+            A single control plane that keeps sessions, tools, and channels in sync while running
+            on your hardware.
+          </p>
+        </article>
+
+        <article class="slide" data-title="How">
+          <div class="eyebrow">How it works</div>
+          <h2>Gateway connects everything</h2>
+          <p>
+            The Gateway is the heart of the system, hosting sessions, tools, and routing for every
+            channel and device.
+          </p>
+          <div class="grid">
+            <div class="card">
+              <strong>Gateway</strong>
+              WebSocket control plane for sessions, tools, and events.
+            </div>
+            <div class="card">
+              <strong>Pi agent</strong>
+              Local runtime with tool streaming and session isolation.
+            </div>
+            <div class="card">
+              <strong>Clients</strong>
+              CLI, WebChat, macOS app, and mobile nodes connect on demand.
+            </div>
+          </div>
+        </article>
+
+        <article class="slide" data-title="Channels">
+          <div class="eyebrow">Reach</div>
+          <h2>Built in and extension channels</h2>
+          <p>Meet users on their preferred surface without rewriting workflow logic.</p>
+          <div class="grid">
+            <div class="card">
+              <strong>Core channels</strong>
+              WhatsApp, Telegram, Slack, Discord, Google Chat, Signal, iMessage, WebChat.
+            </div>
+            <div class="card">
+              <strong>Extensions</strong>
+              Microsoft Teams, Matrix, Zalo, Zalo Personal, BlueBubbles.
+            </div>
+            <div class="card">
+              <strong>Voice and nodes</strong>
+              macOS, iOS, Android nodes with talk mode and Voice Wake.
+            </div>
+          </div>
+        </article>
+
+        <article class="slide" data-title="Capabilities">
+          <div class="eyebrow">Capabilities</div>
+          <h2>Assistants that can act</h2>
+          <ul>
+            <li>Live Canvas for collaborative visual state.</li>
+            <li>Browser control and snapshots.</li>
+            <li>Media pipeline for images, audio, video, and transcription hooks.</li>
+            <li>Skills platform with bundled and workspace skills.</li>
+          </ul>
+        </article>
+
+        <article class="slide" data-title="Safety">
+          <div class="eyebrow">Safety</div>
+          <h2>Guardrails by default</h2>
+          <div class="grid">
+            <div class="card">
+              <strong>Pairing first</strong>
+              Unknown DMs get pairing codes before any processing.
+            </div>
+            <div class="card">
+              <strong>Allowlists</strong>
+              Explicit allowlists per channel and account.
+            </div>
+            <div class="card">
+              <strong>Doctor tools</strong>
+              Built in checks to highlight risky settings.
+            </div>
+          </div>
+        </article>
+
+        <article class="slide" data-title="Ops">
+          <div class="eyebrow">Operations</div>
+          <h2>Designed for reliable daily use</h2>
+          <ul>
+            <li>CLI onboarding wizard for setup across macOS, Linux, and WSL.</li>
+            <li>Install via npm, pnpm, or bun with Node 22 runtime.</li>
+            <li>Control UI and WebChat served directly from the Gateway.</li>
+          </ul>
+        </article>
+
+        <article class="slide" data-title="Get started">
+          <div class="eyebrow">Next steps</div>
+          <h2>Bring OpenClaw to your workflow</h2>
+          <p>Recommended path for new installs.</p>
+          <div class="card">
+            <strong>Quick start</strong>
+            <p>openclaw onboard --install-daemon</p>
+            <p>openclaw gateway --port 18789 --verbose</p>
+          </div>
+          <div class="pill-row">
+            <span class="pill">docs.openclaw.ai</span>
+            <span class="pill">openclaw.ai</span>
+            <span class="pill">github.com/openclaw/openclaw</span>
+          </div>
+        </article>
+      </section>
+
+      <footer class="footer">
+        <span class="nav-hint">Use ← → or space to navigate</span>
+        <div class="progress" aria-hidden="true"></div>
+        <span class="nav-hint" id="counter">1 / 8</span>
+      </footer>
+    </main>
+
+    <script>
+      const slides = Array.from(document.querySelectorAll(".slide"));
+      const progress = document.querySelector(".progress");
+      const counter = document.getElementById("counter");
+      const total = slides.length;
+      let index = 0;
+
+      const renderDots = () => {
+        progress.innerHTML = "";
+        slides.forEach((_, i) => {
+          const dot = document.createElement("span");
+          dot.className = `dot${i === index ? " active" : ""}`;
+          progress.append(dot);
+        });
+      };
+
+      const showSlide = (nextIndex) => {
+        index = (nextIndex + total) % total;
+        slides.forEach((slide, i) => {
+          slide.classList.toggle("active", i === index);
+        });
+        renderDots();
+        counter.textContent = `${index + 1} / ${total}`;
+      };
+
+      document.addEventListener("keydown", (event) => {
+        if (["ArrowRight", " ", "PageDown"].includes(event.key)) {
+          event.preventDefault();
+          showSlide(index + 1);
+        }
+        if (["ArrowLeft", "PageUp"].includes(event.key)) {
+          event.preventDefault();
+          showSlide(index - 1);
+        }
+      });
+
+      renderDots();
+    </script>
+  </body>
+</html>
